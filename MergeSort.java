@@ -39,6 +39,7 @@ public class MergeSort extends SortMaster {
 
         int i = low;
         while(j < temp1.length && k < temp2.length) {
+            // lowest value goes first when merging
             if(temp1[j] < temp2[k]) {
                 arr[i++] = temp1[j++];
             }
@@ -46,6 +47,8 @@ public class MergeSort extends SortMaster {
                 arr[i++] = temp2[k++];
             }
         }
+
+        // add rest of values
 
         while(j < temp1.length) {
             arr[i++] = temp1[j++];
