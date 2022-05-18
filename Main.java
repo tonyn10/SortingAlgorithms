@@ -79,6 +79,8 @@ public class Main {
                 }
             }
 
+
+            System.out.println("\n");
             System.out.println("Average time: " + getAverage(times));
             System.out.println("All sorted?: " + (outcomes.size() == 1 && outcomes.contains(true)));    // hashset should only have 1 true if successful
             
@@ -86,8 +88,9 @@ public class Main {
         catch(InputMismatchException e){
             System.out.println("Not a proper choice.");
         }
-        
-        sc.close();
+        finally {
+            sc.close();
+        }      
     }
 
     private static int[] generateRandomArray(int minVal, int maxVal, int length) {
