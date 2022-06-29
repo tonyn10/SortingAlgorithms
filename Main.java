@@ -10,6 +10,7 @@ public class Main {
         System.out.println("3. Selection Sort");
         System.out.println("4. Quick Sort");
         System.out.println("5. Merge Sort");
+        System.out.println("6. Count Sort");
         System.out.println();
 
         Scanner sc = new Scanner(System.in);
@@ -18,16 +19,21 @@ public class Main {
 
         try {
             int choice = sc.nextInt();
-            if(!(choice >= 1 && choice <= 5)) {
+            if(!(choice >= 1 && choice <= 6)) {
                 throw new InputMismatchException();
             }
 
             int n = 50;                                          // number of sorts to be done
             double[] times = new double[n];                      // how much time the sorting method took
-            HashSet<Boolean> outcomes = new HashSet<Boolean>(2); // set to contain true or false of the success of sort
+            HashSet<Boolean> outcomes = new HashSet<>(2); // set to contain true or false of the success of sort
+
+            // parameters of array
+            int minVal = 0;
+            int maxVal = 10;
+            int length = 10;
 
             for(int i = 0; i < n; i++) {
-                int[] arr = generateRandomArray(-10000, 10000, 10000);
+                int[] arr = generateRandomArray(minVal, maxVal, length);
     
                 System.out.println("\n");
                 switch(choice) {
@@ -51,32 +57,34 @@ public class Main {
                         System.out.println("Merge Sort");
                         obj = new MergeSort(arr);
                         break;
+                    case 6:
+                        System.out.println("Count Sort");
+                        obj = new CountSort(arr, maxVal);
+                        break;
                     default:
                         System.out.println("Improper choice");
                 }
-    
-                if(obj != null) {
-                    System.out.println();
-                    System.out.println("Original:");
-                    System.out.println(obj.toString());
-    
-                    System.out.println();
-                    System.out.println("Sorted:");
-    
-                    double startTime = System.nanoTime();
-                    obj.sort(); 
-                    double finishTime = System.nanoTime();
-    
-                    double elapsedTime = finishTime - startTime;            
-                    System.out.println(obj.toString());
-                    System.out.println("Time: " + elapsedTime + " ns"); // nano seconds
 
-                    times[i] = elapsedTime;
-                    outcomes.add(isSorted(obj.getArr()));
+                System.out.println();
+                System.out.println("Original:");
+                System.out.println(obj);
 
-                    System.out.println();
-                    System.out.println("Sorted?: " + isSorted(obj.getArr()));
-                }
+                System.out.println();
+                System.out.println("Sorted:");
+
+                double startTime = System.nanoTime();
+                obj.sort();
+                double finishTime = System.nanoTime();
+
+                double elapsedTime = finishTime - startTime;
+                System.out.println(obj);
+                System.out.println("Time: " + elapsedTime + " ns"); // nano seconds
+
+                times[i] = elapsedTime;
+                outcomes.add(isSorted(obj.getArr()));
+
+                System.out.println();
+                System.out.println("Sorted?: " + isSorted(obj.getArr()));
             }
 
 
@@ -116,11 +124,6 @@ public class Main {
             i++;
         }
 
-        if(i == arr.length) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return i == arr.length;
     }
 }
